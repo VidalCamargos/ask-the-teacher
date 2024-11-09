@@ -29,6 +29,9 @@ jobs:
         mkdir -p database
         touch database/database.sqlite
 
+    - name: Installing Package.json
+      run: npm run install
+
     - name: Build Assets
       run: npm run build
     
@@ -38,7 +41,7 @@ jobs:
         DB_DATABASE: database/database.sqlite
       run: php artisan test --parallel --stop-on-failure
       
-    - name: Execute Larastan
+    - name: Execut Larastan
       run: vendor/bin/phpstan analyse
-    - name: Execute Pint
+    - name: Execut Pint
       run: vendor/bin/pint --test
