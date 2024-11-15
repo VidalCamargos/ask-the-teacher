@@ -9,7 +9,7 @@ class StoreRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'question' => ['string', 'ends_with:?'],
+            'question' => ['string', 'ends_with:?', 'min:10', 'max:1200'],
         ];
     }
 }
