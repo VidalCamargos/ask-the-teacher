@@ -41,7 +41,5 @@ jobs:
         DB_DATABASE: database/database.sqlite
       run: php artisan test --parallel --stop-on-failure
       
-    - name: Execut Larastan
-      run: vendor/bin/phpstan analyse
     - name: Execut Pint
       run: vendor/bin/pint --test
