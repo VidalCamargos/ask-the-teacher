@@ -31,3 +31,31 @@ it('should not be able to like a question more than 1 time', function () {
 
     expect($user->votes)->toHaveCount(1);
 });
+
+it('should be able to unlike a question', function () {
+    $user     = User::factory()->create();
+    $question = Question::factory()->for($user, 'createdBy')->create();
+
+    actingAs($user);
+
+    post(route('questions.unlike', $question));
+
+    assertDatabaseHas(Vote::class, [
+        'question_id' => $question->id,
+        'like'        => 0,
+        'unlike'      => 1,
+        'user_id'     => $user->id,
+    ]);
+});
+
+it('should not be able to unlike a question more than 1 time', function () {
+    $user     = User::factory()->create();
+    $question = Question::factory()->for($user, 'createdBy')->create();
+
+    actingAs($user);
+
+    post(route('questions.unlike', $question));
+    post(route('questions.unlike', $question));
+
+    expect($user->votes)->toHaveCount(1);
+});
