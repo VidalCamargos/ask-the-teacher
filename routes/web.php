@@ -15,7 +15,7 @@ Route::get('/', function () {
 
 Route::get('/dashboard', DashboardController::class)->middleware(['auth', 'verified'])->name('dashboard');
 
-Route::prefix('questions')->group(function() {
+Route::prefix('questions')->group(function () {
     Route::get('/store', [QuestionController::class, 'index'])->name('questions.index');
     Route::post('/store', [QuestionController::class, 'store'])->name('questions.store');
 });
