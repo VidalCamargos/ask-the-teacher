@@ -15,8 +15,8 @@
 
         <hr class="border-gray-700 my-4">
 
-        <div class="dark:text-gray-400 uppercase font-bold mb-4"> List de Perguntas </div>
-        <div class="dark:bg-gray-400 space-y-6">
+        <div class="dark:text-gray-400 uppercase font-bold mb-4"> Lista de Perguntas </div>
+        <div class="space-y-6">
             @foreach($questions as $item)
                 <x-question :question="$item"/>
             @endforeach

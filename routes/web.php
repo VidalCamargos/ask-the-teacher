@@ -1,6 +1,12 @@
 <?php
 
-use App\Http\Controllers\{DashboardController, LikeController, ProfileController, QuestionController};
+use App\Http\Controllers\{
+    DashboardController,
+    ProfileController,
+    Question\LikeController,
+    Question\QuestionController,
+    Question\UnlikeController,
+};
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', function () {
@@ -20,6 +26,7 @@ Route::prefix('questions')->group(function () {
 
     Route::prefix('{question}')->group(function () {
         Route::post('/like', LikeController::class)->name('questions.like');
+        Route::post('/unlike', UnlikeController::class)->name('questions.unlike');
     });
 });
 
