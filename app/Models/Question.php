@@ -18,8 +18,8 @@ class Question extends Model
         'created_at',
     ];
 
-    public function user(): BelongsTo
+    public function createdBy(): BelongsTo
     {
-        return $this->belongsTo(User::class);
+        return $this->belongsTo(User::class, 'created_by_id');
     }
 }
