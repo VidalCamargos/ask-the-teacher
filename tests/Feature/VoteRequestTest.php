@@ -19,3 +19,16 @@ it('should be able to like a question', function () {
         'user_id'     => $user->id,
     ]);
 });
+
+it('should not be able to like a question more than 1 time', function () {
+    $user     = User::factory()->create();
+    $question = Question::factory()->for($user, 'createdBy')->create();
+
+    actingAs($user);
+
+    post(route('questions.like', $question));
+    post(route('questions.like', $question));
+
+    expect($user->votes)->toHaveCount(1);
+});
+

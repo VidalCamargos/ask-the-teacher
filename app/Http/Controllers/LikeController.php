@@ -9,10 +9,10 @@ class LikeController extends Controller
 {
     public function __invoke(Question $question): RedirectResponse
     {
-        $question->votes()->create([
+        $question->votes()->updateOrCreate([
             'user_id' => auth()->id(),
             'like'    => 1,
-            'unlike'  => 0,
+            'unlike' => 0,
         ]);
 
         return back();
