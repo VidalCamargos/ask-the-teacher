@@ -9,7 +9,7 @@ class QuestionController extends Controller
 {
     public function store(StoreRequest $request): RedirectResponse
     {
-        auth()->user()->questions()->create($request->validated());
+        user()->questions()->create($request->validated());
 
         return to_route('dashboard');
     }

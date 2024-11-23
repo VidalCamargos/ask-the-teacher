@@ -31,4 +31,3 @@ it('should not be able to like a question more than 1 time', function () {
 
     expect($user->votes)->toHaveCount(1);
 });
-
