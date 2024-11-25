@@ -2,7 +2,7 @@
 
 use App\Models\{Question, User, Vote};
 
-use function Pest\Laravel\{actingAs, assertDatabaseHas, post};
+use function Pest\Laravel\{actingAs, assertDatabaseCount, assertDatabaseHas, post};
 
 it('should be able to like a question', function () {
     $user     = User::factory()->create();
@@ -58,4 +58,22 @@ it('should not be able to unlike a question more than 1 time', function () {
     post(route('questions.unlike', $question));
 
     expect($user->votes)->toHaveCount(1);
+});
+
+it('should not able to like and unlike the same question', function() {
+    $user = User::factory()->create();
+    $question = Question::factory()->for($user, 'createdBy')->create();
+
+    actingAs($user);
+
+    post(route('questions.unlike', $question));
+    post(route('questions.like', $question));
+
+    assertDatabaseCount(Vote::class, 1);
+    assertDatabaseHas(Vote::class, [
+        'user_id' => $user->id,
+        'question_id' => $question->id,
+        'unlike' => 0,
+        'like' => 1,
+    ]);
 });
