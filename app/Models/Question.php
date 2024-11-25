@@ -31,11 +31,11 @@ class Question extends Model
 
     public function likesCount(): Attribute
     {
-        return Attribute::get(fn () => $this->votes()->sum('like'));
+        return Attribute::get(fn () => $this->votes->sum('like'));
     }
 
     public function unlikesCount(): Attribute
     {
-        return Attribute::get(fn () => $this->votes()->sum('unlike'));
+        return Attribute::get(fn () => $this->votes->sum('unlike'));
     }
 }
