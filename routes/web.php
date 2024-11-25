@@ -1,6 +1,12 @@
 <?php
 
-use App\Http\Controllers\{ProfileController, QuestionController};
+use App\Http\Controllers\{
+    DashboardController,
+    ProfileController,
+    Question\LikeController,
+    Question\QuestionController,
+    Question\UnlikeController,
+};
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', function () {
@@ -13,11 +19,16 @@ Route::get('/', function () {
     return view('welcome');
 });
 
-Route::get('/dashboard', function () {
-    return view('dashboard');
-})->middleware(['auth', 'verified'])->name('dashboard');
+Route::get('/dashboard', DashboardController::class)->middleware(['auth', 'verified'])->name('dashboard');
 
-Route::post('/questions/store', [QuestionController::class, 'store'])->name('questions.store');
+Route::prefix('questions')->group(function () {
+    Route::post('/store', [QuestionController::class, 'store'])->name('questions.store');
+
+    Route::prefix('{question}')->group(function () {
+        Route::post('/like', LikeController::class)->name('questions.like');
+        Route::post('/unlike', UnlikeController::class)->name('questions.unlike');
+    });
+});
 
 Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
