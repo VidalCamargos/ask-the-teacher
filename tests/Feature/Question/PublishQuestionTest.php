@@ -1,12 +1,11 @@
 <?php
 
-use App\Models\Question;
-use App\Models\User;
-use function Pest\Laravel\actingAs;
-use function Pest\Laravel\put;
+use App\Models\{Question, User};
 
-it('should be able to publish a question', function() {
-    $user = User::factory()->create();
+use function Pest\Laravel\{actingAs, put};
+
+it('should be able to publish a question', function () {
+    $user     = User::factory()->create();
     $question = Question::factory()->for($user, 'createdBy')->create(['draft' => true]);
 
     actingAs($user);

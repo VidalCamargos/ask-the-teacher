@@ -10,7 +10,7 @@ class UpdateRequest extends FormRequest
     {
         return [
             'question' => ['string', 'sometimes', 'ends_with:?', 'min:10', 'max:1200'],
-            'draft' => ['boolean', 'sometimes'],
+            'draft'    => ['boolean', 'sometimes'],
         ];
     }
 }
