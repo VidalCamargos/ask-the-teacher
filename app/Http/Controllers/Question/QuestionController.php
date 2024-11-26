@@ -10,7 +10,10 @@ class QuestionController extends Controller
 {
     public function store(StoreRequest $request): RedirectResponse
     {
-        user()->questions()->create($request->validated());
+        user()->questions()->create([
+            ...$request->validated(),
+            'draft' => true,
+        ]);
 
         return to_route('dashboard');
     }

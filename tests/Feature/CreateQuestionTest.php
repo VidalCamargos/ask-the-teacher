@@ -58,3 +58,22 @@ it('should have at max 1200 chars', function () {
     ])
         ->assertSessionHasErrors(['question' => 'The question field must not be greater than 1200 characters.']);
 });
+
+it('should create as draft all the time', function () {
+    freezeSecond();
+
+    $user = User::factory()->create();
+    actingAs($user);
+    $expectedQuestion = str_repeat('x', 260) . '?';
+
+    post(route('questions.store'), [
+        'question' => $expectedQuestion,
+    ]);
+
+    assertDatabaseHas(Question::class, [
+        'question'      => $expectedQuestion,
+        'draft'         => true,
+        'created_by_id' => $user->id,
+        'created_at'    => now(),
+    ]);
+});
