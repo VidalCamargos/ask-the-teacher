@@ -77,3 +77,11 @@ it('should create as draft all the time', function () {
         'created_at'    => now(),
     ]);
 });
+
+it('only authenticated user can create a question', function () {
+    $expectedQuestion = str_repeat('x', 260) . '?';
+
+    post(route('questions.store'), [
+        'question' => $expectedQuestion,
+    ])->assertRedirect(route('login'));
+});
