@@ -25,6 +25,7 @@ Route::prefix('questions')->group(function () {
     Route::post('/store', [QuestionController::class, 'store'])->name('questions.store');
 
     Route::prefix('{question}')->group(function () {
+        Route::put('/', [QuestionController::class, 'update'])->name('questions.update');
         Route::post('/like', LikeController::class)->name('questions.like');
         Route::post('/unlike', UnlikeController::class)->name('questions.unlike');
     });
