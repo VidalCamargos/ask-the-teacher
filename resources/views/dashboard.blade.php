@@ -1,17 +1,25 @@
 <x-app-layout>
     <x-slot name="header">
-        <h2 class="font-semibold text-xl text-gray-800 dark:text-gray-200 leading-tight">
+        <x-header>
             {{ __('Dashboard') }}
-        </h2>
+        </x-header>
     </x-slot>
 
-    <div class="py-12">
-        <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
-            <div class="bg-white dark:bg-gray-800 overflow-hidden shadow-sm sm:rounded-lg">
-                <div class="p-6 text-gray-900 dark:text-gray-100">
-                    {{ __("You're logged in!") }}
-                </div>
-            </div>
+    <x-container>
+        <x-form post :action="route('questions.store')">
+            <x-textarea name="question" label="Pergunta" placeholder="Me pergunte algo..."/>
+
+            <x-buttons.primary>Salvar</x-buttons.primary>
+            <x-buttons.reset>Cancelar</x-buttons.reset>
+        </x-form>
+
+        <hr class="border-gray-700 my-4">
+
+        <div class="dark:text-gray-400 uppercase font-bold mb-4"> Lista de Perguntas </div>
+        <div class="space-y-6">
+            @foreach($questions as $item)
+                <x-question :question="$item"/>
+            @endforeach
         </div>
-    </div>
+    </x-container>
 </x-app-layout>

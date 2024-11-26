@@ -8,6 +8,8 @@ class QuestionFactory extends Factory
 {
     public function definition(): array
     {
-        return [];
+        return [
+            'question' => fake()->realText(50) . '?',
+        ];
     }
 }
