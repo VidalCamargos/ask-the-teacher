@@ -11,6 +11,7 @@ return new class () extends Migration {
             $table->id();
             $table->foreignId('created_by_id');
             $table->text('question');
+            $table->boolean('draft')->default(false);
 
             $table->timestamps();
         });
