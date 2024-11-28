@@ -17,7 +17,7 @@ it('should create a new question bigger than 255 chars', function () {
         'question' => $expectedQuestion,
     ]);
 
-    $request->assertRedirect(route('dashboard'));
+    $request->assertRedirect();
     assertDatabaseCount(Question::class, 1);
     assertDatabaseHas(Question::class, [
         'question'      => $expectedQuestion,

@@ -27,6 +27,7 @@ Route::middleware('auth')->group(function () {
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 
     Route::prefix('questions')->group(function () {
+        Route::get('/', [QuestionController::class, 'index'])->name('questions.index');
         Route::post('/store', [QuestionController::class, 'store'])->name('questions.store');
 
         Route::prefix('{question}')->group(function () {
