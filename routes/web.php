@@ -28,10 +28,11 @@ Route::middleware('auth')->group(function () {
 
     Route::prefix('questions')->group(function () {
         Route::get('/', [QuestionController::class, 'index'])->name('questions.index');
-        Route::post('/store', [QuestionController::class, 'store'])->name('questions.store');
+        Route::post('/', [QuestionController::class, 'store'])->name('questions.store');
 
         Route::prefix('{question}')->group(function () {
-            Route::put('/update', [QuestionController::class, 'update'])->name('questions.update');
+            Route::put('/', [QuestionController::class, 'update'])->name('questions.update');
+            Route::delete('/', [QuestionController::class, 'destroy'])->name('questions.destroy');
             Route::post('/like', LikeController::class)->name('questions.like');
             Route::post('/unlike', UnlikeController::class)->name('questions.unlike');
         });
