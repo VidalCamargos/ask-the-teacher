@@ -14,6 +14,6 @@ class DatabaseSeeder extends Seeder
             'email' => 'test@example.com',
         ]);
 
-        Question::factory(5)->for(User::first(), 'createdBy')->create();
+        Question::factory(20)->for(User::first(), 'createdBy')->create();
     }
 }

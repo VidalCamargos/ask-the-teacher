@@ -19,21 +19,25 @@ Route::get('/', function () {
     return view('welcome');
 });
 
-Route::get('/dashboard', DashboardController::class)->middleware(['auth', 'verified'])->name('dashboard');
-
-Route::prefix('questions')->group(function () {
-    Route::post('/store', [QuestionController::class, 'store'])->name('questions.store');
-
-    Route::prefix('{question}')->group(function () {
-        Route::post('/like', LikeController::class)->name('questions.like');
-        Route::post('/unlike', UnlikeController::class)->name('questions.unlike');
-    });
-});
-
-Route::middleware('auth')->group(function () {
+Route::middleware(['auth', 'verified'])->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
+
+    Route::get('/dashboard', DashboardController::class)->name('dashboard');
+
+    Route::prefix('questions')->group(function () {
+        Route::get('/', [QuestionController::class, 'index'])->name('questions.index');
+        Route::post('/', [QuestionController::class, 'store'])->name('questions.store');
+
+        Route::prefix('{question}')->group(function () {
+            Route::get('/', [QuestionController::class, 'edit'])->name('questions.edit');
+            Route::put('/', [QuestionController::class, 'update'])->name('questions.update');
+            Route::delete('/', [QuestionController::class, 'destroy'])->name('questions.destroy');
+            Route::post('/like', LikeController::class)->name('questions.like');
+            Route::post('/unlike', UnlikeController::class)->name('questions.unlike');
+        });
+    });
 });
 
 require __DIR__ . '/auth.php';
