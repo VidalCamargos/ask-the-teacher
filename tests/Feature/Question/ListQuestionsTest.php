@@ -27,13 +27,14 @@ it('should paginate the result', function () {
     get(route('dashboard'))->assertViewHas('questions', fn ($value) => $value instanceof LengthAwarePaginator);
 });
 
-it('should order by like and unlike', function () {
-    $user      = User::factory()->create();
-    $otherUser = User::factory()->create();
+it('should order by like and unlike, most liked at the top and most unliked at the bottom', function () {
+    $user = User::factory()->create();
     Question::factory(5)->for($user, 'createdBy')->create();
-    $mostLikedQuestion   = Question::inRandomOrder()->first();
-    $mostUnlikedQuestion = Question::inRandomOrder()->whereNot('id', $mostLikedQuestion->id)->first();
+
+    $mostLikedQuestion = Question::inRandomOrder()->first();
     $mostLikedQuestion->votes()->create(['like' => 1, 'user_id' => $user->id]);
+
+    $mostUnlikedQuestion = Question::inRandomOrder()->whereNot('id', $mostLikedQuestion->id)->first();
     $mostUnlikedQuestion->votes()->create(['unlike' => 1, 'user_id' => $user->id]);
 
     actingAs($user);
