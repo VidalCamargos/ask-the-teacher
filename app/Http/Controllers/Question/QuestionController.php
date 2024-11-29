@@ -30,9 +30,9 @@ class QuestionController extends Controller
         return back();
     }
 
-    public function edit(Question $question)
+    public function edit(Question $question): View
     {
-
+        return view('question.edit', compact('question'));
     }
 
     public function update(UpdateRequest $request, Question $question): RedirectResponse
