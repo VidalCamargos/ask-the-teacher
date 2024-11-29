@@ -30,6 +30,11 @@ class QuestionController extends Controller
         return back();
     }
 
+    public function edit(Question $question)
+    {
+
+    }
+
     public function update(UpdateRequest $request, Question $question): RedirectResponse
     {
         $this->authorize('update', $question);
