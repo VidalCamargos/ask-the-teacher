@@ -15,9 +15,17 @@ class Question extends Model
 
     protected $fillable = [
         'question',
+        'draft',
         'created_by_id',
         'created_at',
     ];
+
+    protected function casts(): array
+    {
+        return [
+            'draft' => 'boolean',
+        ];
+    }
 
     public function createdBy(): BelongsTo
     {

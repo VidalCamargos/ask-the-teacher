@@ -17,7 +17,7 @@ it('should create a new question bigger than 255 chars', function () {
         'question' => $expectedQuestion,
     ]);
 
-    $request->assertRedirect(route('dashboard'));
+    $request->assertRedirect();
     assertDatabaseCount(Question::class, 1);
     assertDatabaseHas(Question::class, [
         'question'      => $expectedQuestion,
@@ -57,4 +57,31 @@ it('should have at max 1200 chars', function () {
         'question' => $expectedQuestion,
     ])
         ->assertSessionHasErrors(['question' => 'The question field must not be greater than 1200 characters.']);
+});
+
+it('should create as draft all the time', function () {
+    freezeSecond();
+
+    $user = User::factory()->create();
+    actingAs($user);
+    $expectedQuestion = str_repeat('x', 260) . '?';
+
+    post(route('questions.store'), [
+        'question' => $expectedQuestion,
+    ]);
+
+    assertDatabaseHas(Question::class, [
+        'question'      => $expectedQuestion,
+        'draft'         => true,
+        'created_by_id' => $user->id,
+        'created_at'    => now(),
+    ]);
+});
+
+it('only authenticated user can create a question', function () {
+    $expectedQuestion = str_repeat('x', 260) . '?';
+
+    post(route('questions.store'), [
+        'question' => $expectedQuestion,
+    ])->assertRedirect(route('login'));
 });
