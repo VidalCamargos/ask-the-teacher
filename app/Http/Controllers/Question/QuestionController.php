@@ -32,6 +32,8 @@ class QuestionController extends Controller
 
     public function edit(Question $question): View
     {
+        $this->authorize('edit', $question);
+
         return view('question.edit', compact('question'));
     }
 
