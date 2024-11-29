@@ -19,11 +19,31 @@ it('should list all the questions properly', function () {
 });
 
 it('should paginate the result', function () {
-    $user      = User::factory()->create();
-    $questions = Question::factory(20)->for($user, 'createdBy')->create();
+    $user = User::factory()->create();
+    Question::factory(20)->for($user, 'createdBy')->create();
 
     actingAs($user);
 
     get(route('dashboard'))->assertViewHas('questions', fn ($value) => $value instanceof LengthAwarePaginator);
+});
 
+it('should order by like and unlike', function () {
+    $user      = User::factory()->create();
+    $otherUser = User::factory()->create();
+    Question::factory(5)->for($user, 'createdBy')->create();
+    $mostLikedQuestion   = Question::inRandomOrder()->first();
+    $mostUnlikedQuestion = Question::inRandomOrder()->whereNot('id', $mostLikedQuestion->id)->first();
+    $mostLikedQuestion->votes()->create(['like' => 1, 'user_id' => $user->id]);
+    $mostUnlikedQuestion->votes()->create(['unlike' => 1, 'user_id' => $user->id]);
+
+    actingAs($user);
+
+    get(route('dashboard'))->assertViewHas('questions', function ($questions) use ($mostLikedQuestion, $mostUnlikedQuestion) {
+        expect($questions)
+            ->first()->id->toBe($mostLikedQuestion->id)
+            ->and($questions)
+            ->last()->id->toBe($mostUnlikedQuestion->id);
+
+        return true;
+    });
 });
