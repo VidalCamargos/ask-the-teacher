@@ -43,7 +43,7 @@ class QuestionController extends Controller
 
         $question->update($request->validated());
 
-        return back();
+        return to_route('questions.index');
     }
 
     public function destroy(Question $question): RedirectResponse

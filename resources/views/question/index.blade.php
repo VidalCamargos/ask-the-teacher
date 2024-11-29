@@ -36,6 +36,8 @@
                             <x-form :action="route('questions.update', [$question, 'draft' => false])" put>
                                 <button type="submit" class="hover:underline text-blue-500">Publicar</button>
                             </x-form>
+
+                            <a href="{{route('questions.edit', $question)}}" class="hover:underline text-blue-500">Editar</a>
                         </x-table.td>
                     </x-table.tr>
                 @endforeach
