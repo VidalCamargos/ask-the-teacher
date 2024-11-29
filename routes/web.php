@@ -31,6 +31,7 @@ Route::middleware('auth')->group(function () {
         Route::post('/', [QuestionController::class, 'store'])->name('questions.store');
 
         Route::prefix('{question}')->group(function () {
+            Route::get('/', [QuestionController::class, 'edit'])->name('questions.edit');
             Route::put('/', [QuestionController::class, 'update'])->name('questions.update');
             Route::delete('/', [QuestionController::class, 'destroy'])->name('questions.destroy');
             Route::post('/like', LikeController::class)->name('questions.like');
