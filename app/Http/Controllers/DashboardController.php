@@ -10,7 +10,7 @@ class DashboardController extends Controller
     public function __invoke(): View
     {
         return view('dashboard', [
-            'questions' => Question::withSum('votes', 'like')
+            'questions' => Question::where('draft', false)->withSum('votes', 'like')
                 ->withSum('votes', 'unlike')
                 ->orderByRaw('
                     case when votes_sum_like is null then 0 else votes_sum_like end desc,
