@@ -4,7 +4,7 @@ namespace Tests\Feature;
 
 use App\Models\{Question, User};
 
-use function Pest\Laravel\{actingAs, assertDatabaseCount, assertDatabaseHas, freezeSecond, post};
+use function Pest\Laravel\{actingAs, assertDatabaseCount, assertDatabaseHas, freezeSecond, post, postJson};
 
 it('should create a new question bigger than 255 chars', function () {
     freezeSecond();
@@ -84,4 +84,15 @@ it('only authenticated user can create a question', function () {
     post(route('questions.store'), [
         'question' => $expectedQuestion,
     ])->assertRedirect(route('login'));
+});
+
+it('question should be unique', function () {
+    $user = User::factory()->create();
+    Question::factory()->for($user, 'createdBy')->create(['question' => 'Some question?']);
+
+    actingAs($user);
+
+    postJson(route('questions.store'), [
+        'question' => 'Some question?',
+    ])->assertJsonFragment(['errors' => ['question' => ['Pergunta já existe!']]]);
 });
